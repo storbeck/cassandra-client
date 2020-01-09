@@ -35,7 +35,6 @@ class App extends Component {
               <h1>Not Connected</h1>
             </div>
         }
-
       </div>
     )
   }

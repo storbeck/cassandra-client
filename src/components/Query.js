@@ -7,6 +7,8 @@ import * as cassandra from "../service/cassandra"
 import "ace-builds/src-noconflict/mode-sql"
 import "ace-builds/src-noconflict/theme-sqlserver"
 
+import 'brace/ext/language_tools';
+
 export default class Query extends React.Component {
 
     data = [
@@ -44,7 +46,7 @@ export default class Query extends React.Component {
     }
 
     makeQuery() {
-        cassandra.executeQuery(this.state.query)
+        cassandra.executeQuery(this.refs.ace.editor.getSelectedText() || this.state.query)
             .then(res => {
 
                 // stringify objects to prevent [object Object] from showing in the table
@@ -72,6 +74,8 @@ export default class Query extends React.Component {
                 <div style={{display: "flex", alignItems: "center", marginBottom: 10}}>
                         <AceEditor
                             style={{border: "1px solid #ccc"}}
+                            ref="ace"
+                            root="ace"
                             mode="sql"
                             theme="sqlserver"
                             width="100%"

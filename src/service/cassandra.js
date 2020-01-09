@@ -25,7 +25,7 @@ export function connect (contactPoints, username, password, port = 9042, sslEnab
 export function disconnect () {
     return new Promise((resolve, reject) => {
         client.shutdown(err => {
-            console.log(err)
+            console.error(err)
             resolve()
         })
     })

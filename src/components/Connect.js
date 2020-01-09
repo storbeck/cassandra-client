@@ -60,7 +60,6 @@ export default class Connect extends React.Component {
     componentDidMount() {
         storage.getConnection()
         .then(conn => {
-            console.log(conn)
             this.setState({
                 contact_points: conn.contact_points,
                 username: conn.username,

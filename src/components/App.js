@@ -1,8 +1,6 @@
-import "ag-grid-community/dist/styles/ag-grid.css"
-import "ag-grid-community/dist/styles/ag-theme-balham.css"
+import "handsontable/dist/handsontable.full.min.css"
 import "uikit/dist/css/uikit.css"
 import '../assets/css/App.css'
-
 
 import React, { Component } from 'react'
 import Header from "./Header"

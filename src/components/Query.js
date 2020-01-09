@@ -1,18 +1,27 @@
 import React from "react"
-import {AgGridReact} from "ag-grid-react"
 import AceEditor from "react-ace"
+import { HotTable } from '@handsontable/react';
+import Handsontable from 'handsontable';
 
 import * as cassandra from "../service/cassandra"
 import "ace-builds/src-noconflict/mode-sql"
 import "ace-builds/src-noconflict/theme-sqlserver"
 
 export default class Query extends React.Component {
+
+    data = [
+        ['', 'Tesla', 'Mercedes', 'Toyota', 'Volvo'],
+        ['2019', 10, 11, 12, 13],
+        ['2020', 20, 11, 14, 13],
+        ['2021', 30, 15, 12, 13]
+    ];
+
     state = {
         query: "",
         has_results: false,
         error_msg: "",
-        aggridColumnDefs: [],
-        aggridRowData: []
+        col_def: [],
+        row_data: []
     }
 
     copyListener(event) {
@@ -37,11 +46,19 @@ export default class Query extends React.Component {
     makeQuery() {
         cassandra.executeQuery(this.state.query)
             .then(res => {
-                let colDefs = res.columns.map(col => {
-                    return { headerName: col.name, field: col.name }
+
+                // stringify objects to prevent [object Object] from showing in the table
+                const isObject = n => Object.prototype.toString.call(n) === '[object Object]'
+                const rows = res.rows.map(row => {
+                    let stringified = {};
+                    Object.keys(row).forEach(col => {
+                        stringified[col] = isObject(row[col]) ? JSON.stringify(row[col]) : row[col];
+                    })
+                    return stringified;
                 })
 
-                this.setState({aggridColumnDefs: colDefs, aggridRowData: res.rows, has_results: true, error_msg: ""})
+                let colDefs = res.columns.map(col => col.name)
+                this.setState({col_def: colDefs, row_data: rows, has_results: true, error_msg: ""})
             })
             .catch(err => {
                 this.setState({error_msg: err.message})
@@ -49,6 +66,7 @@ export default class Query extends React.Component {
     }
 
     render() {
+
         return (
             <div style={{width: "100%", padding: 5}}>
                 <div style={{display: "flex", alignItems: "center", marginBottom: 10}}>
@@ -70,24 +88,35 @@ export default class Query extends React.Component {
                                 exec: () => { this.makeQuery() }
                               }]}
                         />
-                    <a className="uk-button uk-button-default" href="#" onClick={this.makeQuery} style={{margin: 10, marginRight: 25}}>Run</a>
+                    <a className="uk-button uk-button-default" href="#" onClick={() => this.makeQuery()} style={{margin: 10, marginRight: 25}}>Run</a>
                 </div>
 
                 { this.state.error_msg.length > 0 ? <div className="validation-state error">{this.state.error_msg}</div> : null }
 
-                <div style={{width: 'calc(100% - 25px)', height: '550px'}} onKeyDown={this.copyListener.bind(this)} className='ag-theme-balham'>
-                    {this.state.has_results ?
-                    <AgGridReact
-                        columnDefs={this.state.aggridColumnDefs}
-                        rowData={this.state.aggridRowData}
-                        enableSorting
-                        enableFilter
-                        pagination
-                        paginationPageSize={100}
-                        onCellClicked={(cell) => this.setState({selectedCell: cell})}
-                        onGridReady={(params) => this.setState({gridOptions: params})}
-                        rowSelection='multiple' /> : null }
-                    </div>
+                { this.state.has_results ?
+                    <HotTable 
+                        root="hot"
+                        ref="hot"
+                        style={{fontSize: 12, marginRight: 25}}
+                        data={this.state.row_data} 
+                        columns={this.state.col_def.map(col => {
+                            return { data: col, type: "text" }
+                        })}
+                        colHeaders={this.state.col_def} 
+                        rowHeaders={true} 
+                        stretchW={true}
+                        height="550"
+                        manualRowResize={true}
+                        manualColumnResize={true}
+                        dropdownMenu={true}
+                        filters={true}
+                        headerTooltips={{
+                            rows: true,
+                            columns: true,
+                            onlyTrimmed: false
+                        }}
+                        contextMenu={true}
+                        /> : null }
             </div>
         )
     }

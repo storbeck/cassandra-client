@@ -1,0 +1,16 @@
+/* Main CSS file */
+
+@import '_example/_example.css';
+
+textarea {
+    font-family: Consolas, Monaco, "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New" !important;
+    font-size: 12px !important;
+ }
+
+ .resizable {
+     overflow: auto;
+     resize: none;
+     height: 200px;
+     width: 100%;
+     padding: 20px;
+ }

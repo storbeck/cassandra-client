@@ -8,6 +8,10 @@ Forked from https://github.com/beatriz/cassandra-client
 * [Code of Conduct](#code-of-conduct)
 * [License](#license)
 
+![Login](/examples/login.png?raw=true "Login")
+
+![Query](/examples/query.png?raw=true "Query")
+
 ### Install
 
 #### Clone this repo
@@ -21,10 +25,6 @@ git clone https://github.com/storbeck/cassandra-client.git
 ```
 npm install
 ```
-or
-```
-yarn
-```
 
 ### Usage
 
@@ -33,37 +33,25 @@ yarn
 ```
 npm run start
 ```
-or
-```
-yarn start
-```
 
-#### Build the app (automatic)
-
-```
-npm run package
-```
-or
-```
-yarn package
-```
-
-#### Build the app (manual)
+#### Build the app
 
 ```
 npm run build
 ```
-or
+
+
+#### Package the app
+
+Binaries will be found in ./release/
+
 ```
-yarn build
+npm run package
 ```
 
 #### Test the app (after `npm run build` || `yarn run build`)
 ```
 npm run prod
-```
-```
-yarn prod
 ```
 
 ### Code of Conduct

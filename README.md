@@ -8,9 +8,9 @@ Forked from https://github.com/beatriz/cassandra-client
 * [Code of Conduct](#code-of-conduct)
 * [License](#license)
 
-![Login](/examples/login.png?raw=true "Login")
+![Login Screenshot](examples/login.png?raw=true "Login")
 
-![Query](/examples/query.png?raw=true "Query")
+![Query Screenshot](examples/query.png?raw=true "Query")
 
 ### Install
 

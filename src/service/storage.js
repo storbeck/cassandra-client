@@ -1,4 +1,4 @@
-// const keytar = require('keytar')
+const keytar = require('keytar')
 const electron = require('electron')
 const store = require('electron-json-storage')
 const path = require('path')
@@ -13,24 +13,24 @@ export function getConnection () {
       (err, data) => {
         if (err) reject(err)
 
-        // if (data.username) {
-        //   data.password = keytar.getPassword("CassandraClient", data.username);
-        //   keytar.getPassword("CassandraClient", data.username)
-        //     .then(val => {
-        //       data.password = val
+        if (data.username) {
+          data.password = keytar.getPassword("CassandraClient", data.username);
+          keytar.getPassword("CassandraClient", data.username)
+            .then(val => {
+              data.password = val
 
-        //       return resolve(data)
-        //     })
-        //     .catch(err => console.error(err))
-        // }
-        return resolve(data)
+              return resolve(data)
+            })
+            .catch(err => console.error(err))
+        }
       })
   })
 }
 
 export function setConnection (contact_points, username, password, port, sslEnabled, certificate) {
-  // if (!username || !password) throw "Username or Password not provided"
-  // keytar.setPassword("CassandraClient", username, password)
+
+  if (!username || !password) throw "Username or Password not provided"
+  keytar.setPassword("CassandraClient", username, password)
 
   store.set(
     'connection',

@@ -43,6 +43,7 @@ module.exports = {
       //     path.resolve(__dirname, './node_modules/keytar/build/Release/')
       //   ]
       // }
+      { test: /\.node$/, loader: 'node-loader' }
     ]
   },
   target: 'electron-renderer',

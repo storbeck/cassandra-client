@@ -53,7 +53,7 @@
     "brace": "^0.11.1",
     "cassandra-driver": "^3.3.0",
     "classnames": "^2.2.6",
-    "electron": "^7.1.8",
+    "electron": "^7.2.4",
     "electron-devtools-installer": "^2.2.4",
     "electron-json-storage": "^4.1.8",
     "fs": "0.0.2",
